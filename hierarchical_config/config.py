@@ -8,14 +8,26 @@ class Config:
         self.sep = sep
         self.config_file_paths = config_files
         self.cacher = {}
+        self.config = {}
 
         # Read files:
         self.config_files = [self.read_file(fp) for fp in self.config_file_paths]    
         self.flat_dicts = [self.flatten_dict(d) for d in self.config_files]
+        self.config = self.squash(self.flat_dicts)
+
+
+    def __getitem__(self, item):
+        return self.config.get(item, None)
+
+    def get(self, item, default):
+        return self.config.get(item, default)
     
-    def squash(self):
-        for i in range(1, len(self.flat_dicts)):
-            d = self.impose(self.flat_dicts[i-1], self.flat_dicts[i])
+    def items(self):
+        return self.config.items()
+
+    def squash(self, flat_dicts):
+        for i in range(1, len(flat_dicts)):
+            d = self.impose(flat_dicts[i-1], flat_dicts[i])
         return d
 
     def impose(self, dict_a, dict_b):
