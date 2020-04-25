@@ -1,0 +1,5 @@
+{
+    "python.pythonPath": "C:\\Users\\Viktor\\AppData\\Local\\Programs\\Python\\Python37\\python.exe",
+    "editor.renderWhitespace": "all",
+    "python.formatting.provider": "black"
+}
