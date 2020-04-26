@@ -6,9 +6,10 @@ from collections.abc import Iterable
 
 class Config:
 
-    def __init__(self, config_files=set(), sep="_$_$_"):
+    def __init__(self, config_files=(), env_path=None, sep="_$_$_"):
         self.sep = sep
         self.config_file_paths = config_files
+        self.env_path = env_path
         self.cacher = {}
         self.config = {}
 
@@ -17,6 +18,8 @@ class Config:
         self.flat_dicts = [self.flatten_dict(d) for d in self.config_files]
         self.config = self.squash(self.flat_dicts)
         #self.config_rebuilt = self.rebuild(self.config)
+        if env_path is not None:
+            self.check_env(env_path)
 
     def __str__(self):
         return str(self.config)
@@ -47,6 +50,9 @@ class Config:
 
     def impose(self, dict_a, dict_b):
         return {**dict_a, **dict_b}
+
+    def check_env(self, env_path):
+        pass
 
     # ------ Rebuild dict ------
     # TODO: This
@@ -89,17 +95,3 @@ class Config:
         self.cacher = {}
         self._flatten_dict(dict_)
         return self.cacher
-
-
-if __name__ == "__main__":
-    #a = {"a": "hello", "b":"bye", "c": {"hgh": 78, "h": {"gh": 45}}, "k": ["heh", "67"]}
-    #b = {"a": "hello", "b":"bye", "c": "ccccc", "h": "gggface"}
-    #c = Config()
-    #c.flatten_dict(a)
-    #print(c.cacher)
-    empty_str = ""
-    if empty_str:
-        print("dpesnt work")
-    else:
-        print("does work")
-    
